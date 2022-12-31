@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
 import { useState } from 'react'
@@ -30,14 +31,14 @@ export  default function Home() {
       </Head>
       <main className={styles.main}>
         <h1>Train Query App</h1>
-        <div className="input-group mb-3">'
+        <div className="input-group mb-3">
           <input type="text" name="query" className="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" onChange={e => setQuery(e.target.value)} value={query} />
           <button className="btn btn-outline-secondary" type="button" id="button-addon2" onClick={submit}>検索</button>
         </div>
         <div>
           <ul className="List-group">
             {Object.keys(result).map((key:string) =>
-            <li key={key} className="list-group-item">{result[key].id} : {result[key].name}&nbsp;({result[key].railways.join(", ")})</li> 
+            <li key={key} className="list-group-item"><Link href={`#${result[key].id}`}>{result[key].id} : {result[key].name}&nbsp;({result[key].railways.join(", ")})</Link></li> 
             )}
           </ul>
         </div>
