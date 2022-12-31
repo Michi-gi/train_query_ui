@@ -5,7 +5,7 @@ import styles from '../styles/Home.module.css'
 import { NextPage } from 'next'
 import { useState } from 'react'
 
-import { SearchResult } from './ResultType'
+import { SearchResult } from 'lib/ResultType'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -39,7 +39,7 @@ const Home:NextPage = () => {
         <div>
           <ul className="List-group">
             {Object.keys(result).map((key:string) =>
-            <li key={key} className="list-group-item"><Link href={`#${result[key].id}`}>{result[key].id} : {result[key].name}&nbsp;({result[key].railways.join(", ")})</Link></li> 
+            <li key={key} className="list-group-item"><Link href={`station/${result[key].id}`}>{result[key].id} : {result[key].name}&nbsp;({result[key].railways.join(", ")})</Link></li> 
             )}
           </ul>
         </div>
