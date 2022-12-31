@@ -2,13 +2,14 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
+import { NextPage } from 'next'
 import { useState } from 'react'
 
-import { SearchResult } from './ResultType'
+import { SearchResult } from 'lib/ResultType'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export  default function Home() {
+const Home:NextPage = () => {
   const [query, setQuery] = useState("");
   const [result, setResult] = useState({} as SearchResult);
 
@@ -38,7 +39,7 @@ export  default function Home() {
         <div>
           <ul className="List-group">
             {Object.keys(result).map((key:string) =>
-            <li key={key} className="list-group-item"><Link href={`#${result[key].id}`}>{result[key].id} : {result[key].name}&nbsp;({result[key].railways.join(", ")})</Link></li> 
+            <li key={key} className="list-group-item"><Link href={`station/${result[key].id}`}>{result[key].id} : {result[key].name}&nbsp;({result[key].railways.join(", ")})</Link></li> 
             )}
           </ul>
         </div>
@@ -46,3 +47,5 @@ export  default function Home() {
     </>
   );
 }
+
+export default Home;
