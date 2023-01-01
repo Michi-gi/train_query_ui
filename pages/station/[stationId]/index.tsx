@@ -4,28 +4,38 @@ import { Inter } from '@next/font/google'
 import styles from '../../../styles/Home.module.css'
 import { NextPage } from 'next'
 import { useRouter } from "next/router"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import { Station, Line } from 'lib/ResultType'
+import { StatusContext }from "lib/Contexts"
 
 const inter = Inter({ subsets: ['latin'] })
 
-const Station:NextPage = () => {
+const StationPage:NextPage = () => {
   const [name, setName] = useState("");
   const [lines, setLines] = useState([] as Line[]);
-  
+
   const router = useRouter();
-  const stationId = router.query.stationId;
+  const stationId = router.query.stationId as string;
+
+  const statusContext = useContext(StatusContext);
+  let station = statusContext.station[stationId];
 
   let notCalled = true;
   useEffect(() => {
     if (notCalled) {
       notCalled = false;
-      fetch(`/api/station/${stationId}`).then(async (response) => {
-        const station = await response.json() as Station;
+      if (station === undefined) {
+        fetch(`/api/station/${stationId}`).then(async (response) => {
+          station = await response.json() as Station;
+          setName(station.name);
+          setLines(station.lines);
+          statusContext.station[stationId] = station;
+        });
+      } else {
         setName(station.name);
         setLines(station.lines);
-      });
+      }
     }
   }, []);
 
@@ -51,4 +61,4 @@ const Station:NextPage = () => {
   );
 }
 
-export default Station
+export default StationPage

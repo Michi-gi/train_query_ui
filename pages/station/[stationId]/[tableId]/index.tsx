@@ -4,9 +4,10 @@ import { Inter } from '@next/font/google'
 import styles from '../../../../styles/Home.module.css'
 import { NextPage } from 'next'
 import { useRouter } from "next/router"
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import { Table, Train, setHourMinuteInTrain } from 'lib/ResultType'
+import { StatusContext }from "lib/Contexts"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,22 +17,30 @@ const Table:NextPage = () => {
   
   const router = useRouter();
   const stationId = router.query.stationId;
-  const tableId = router.query.tableId;
+  const tableId = router.query.tableId as string;
+
+  const statusContext = useContext(StatusContext);
+  let table = statusContext.table[tableId];
 
   let notCalled = true;
   useEffect(() => {
     if (notCalled) {
       notCalled = false;
-      fetch(`/api/station/${stationId}/${tableId}`).then(async (response) => {
-        const table = await response.json() as Table;
-        setName(table.lineName);
-        if (table.table) {
-          table.table.forEach((train) => {
-            setHourMinuteInTrain(train);
-          });
-        }
+      if (table === undefined) {
+        fetch(`/api/station/${stationId}/${tableId}`).then(async (response) => {
+          table = await response.json() as Table;
+          setName(table.lineName);
+          if (table.table) {
+            table.table.forEach((train) => {
+              setHourMinuteInTrain(train);
+            });
+          }
+          setTrains(table.table);
+          statusContext.table[tableId] = table;
+        });
+      } else {
         setTrains(table.table);
-      });
+      }
     }
   }, []);
 
