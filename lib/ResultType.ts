@@ -25,6 +25,7 @@ export interface Table {
     direction: string;
     lineName: string;
     table: Train[];
+    dayOfWeekMap: {[key: string]: string};
 }
 
 export interface Train {

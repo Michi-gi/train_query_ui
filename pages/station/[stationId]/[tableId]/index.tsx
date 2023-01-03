@@ -1,39 +1,44 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { Inter } from '@next/font/google'
 import styles from '../../../../styles/Home.module.css'
 import { NextPage } from 'next'
 import { useRouter } from "next/router"
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import { Table, Train, setHourMinuteInTrain } from 'lib/ResultType'
-
-const inter = Inter({ subsets: ['latin'] })
+import { StatusContext }from "lib/Contexts"
 
 const Table:NextPage = () => {
   const [name, setName] = useState("");
   const [trains, setTrains] = useState([] as Train[]);
+  const [dayMap, setDayMap] = useState({} as {[key: string]: string})
   
   const router = useRouter();
   const stationId = router.query.stationId;
-  const tableId = router.query.tableId;
+  const tableId = router.query.tableId as string;
 
-  let notCalled = true;
+  const kind = router.query.kind as string || "-1"
+  const [selectedKind, setSelectedKind] = useState(kind);
+
+  const statusContext = useContext(StatusContext);
+  let table = statusContext.table[`${tableId}_${kind}`];
+
   useEffect(() => {
-    if (notCalled) {
-      notCalled = false;
-      fetch(`/api/station/${stationId}/${tableId}`).then(async (response) => {
-        const table = await response.json() as Table;
-        setName(table.lineName);
-        if (table.table) {
-          table.table.forEach((train) => {
-            setHourMinuteInTrain(train);
-          });
-        }
-        setTrains(table.table);
-      });
-    }
-  }, []);
+    const query = (selectedKind == "-1") ? "" : `?kind=${selectedKind}`;
+    router.push(`/station/${stationId}/${tableId}${query}`, undefined, { shallow: true})
+    fetch(`/api/station/${stationId}/${tableId}${query}`).then(async (response) => {
+      table = await response.json() as Table;
+      setName(table.lineName);
+      if (table.table) {
+        table.table.forEach((train) => {
+          setHourMinuteInTrain(train);
+        });
+      }
+      setTrains(table.table);
+      setDayMap(table.dayOfWeekMap);
+      statusContext.table[`${tableId}_${kind}`] = table;
+    });
+  }, [selectedKind]);
 
   return (
     <>
@@ -45,6 +50,14 @@ const Table:NextPage = () => {
       </Head>
       <main className={styles.main}>
         <h1>{name}</h1>
+        <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+        {Object.keys(dayMap).map((key) => 
+        <React.Fragment key={key}>
+          <input type="radio" className="btn-check" name="btnradio" id={`btnradio_${key}`} value={key} checked={key == selectedKind} onChange={e => setSelectedKind(e.target.value)} />
+          <label className="btn btn-outline-primary" htmlFor={`btnradio_${key}`}>{dayMap[key]}</label>
+        </React.Fragment >
+        )}
+        </div>
         <div>
           <ul className="List-group">
             {trains && trains.map((train) =>

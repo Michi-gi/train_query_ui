@@ -1,13 +1,10 @@
 import Head from 'next/head'
 import Link from 'next/link'
-import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
 import { NextPage } from 'next'
 import { useState } from 'react'
 
 import { SearchResult } from 'lib/ResultType'
-
-const inter = Inter({ subsets: ['latin'] })
 
 const Home:NextPage = () => {
   const [query, setQuery] = useState("");
@@ -16,7 +13,6 @@ const Home:NextPage = () => {
   const submit = () => {
     fetch(`/api/search?q=${query}`).then(async (response) => {
       const r = await response.json() as SearchResult;
-      console.log(r)
       setResult(r);
       setQuery("");
     });
