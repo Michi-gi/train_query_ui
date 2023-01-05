@@ -29,18 +29,13 @@ const TablePage:NextPage = () => {
 
   async function refresh(stationId: string, tableId: string, kind: string): Promise<Table> {
     const contextKey = `${tableId}_${kind}`;
-    console.log(contextKey)
-    console.log(statusContext.table)
     let table = statusContext.table[contextKey];
     if (table != null) {
-      console.log("cache hit")
-      return table
+      return table;
     } else {
-      console.log("cache not hit")
       const query = (kind == "-1") ? "" : `?kind=${kind}`;
       return fetch(`/api/station/${stationId}/${tableId}${query}`).then(async (response) => {
         const table = await response.json() as Table;
-        console.log(table)
         if (table.table) {
           table.table.forEach((train) => {
             setHourMinuteInTrain(train);
@@ -76,7 +71,6 @@ const TablePage:NextPage = () => {
     });
 
     refresh(stationId, tableId, selectedKind).then((table) => {
-      console.log("effect refresh")
       setName(table.lineName);
       setTrains(table.table);
       setDayMap(table.dayOfWeekMap);
@@ -106,7 +100,7 @@ const TablePage:NextPage = () => {
         <div>
           <ul className="List-group">
             {trains && trains.map((train) =>
-            <li key={train.id} className="list-group-item"><Link href={`${train.id}`}>{train.time} | {train.kind}&nbsp;:&nbsp;{train.name}&nbsp;:&nbsp;{train.destination}</Link></li> 
+            <li key={train.id} className="list-group-item"><Link href={{pathname: "/station/[stationId]/[tableId]/[trainId]", query: {stationId: stationId, tableId: tableId, trainId: train.id}}}>{train.time} | {train.kind}&nbsp;:&nbsp;{train.name}&nbsp;:&nbsp;{train.destination}</Link></li> 
             )}
           </ul>
         </div>
