@@ -1,5 +1,5 @@
 import React, { createContext } from 'react'
-import { Station, Table } from 'lib/ResultType';
+import { Station, Table, TrainReturn } from 'lib/ResultType';
 
 type StationMap = {
     [key: string]: Station;
@@ -7,4 +7,7 @@ type StationMap = {
 type TableMap = {
     [key: string]: Table;
 }
-export const StatusContext = createContext({station: {} as StationMap, table: {} as TableMap});
+type TrainMap = {
+    [key: string]: TrainReturn;
+}
+export const StatusContext = createContext({station: {} as StationMap, table: {} as TableMap, trains: {} as TrainMap});
