@@ -24,11 +24,11 @@ export interface Line {
 export interface Table {
     direction: string;
     lineName: string;
-    table: Train[];
+    table: TrainInTable[];
     dayOfWeekMap: {[key: string]: string};
 }
 
-export interface Train {
+export interface TrainInTable {
     id: string;
     name: string;
     time: string;
@@ -38,6 +38,22 @@ export interface Train {
     isFirstStation: boolean;
     isExtra: boolean;
     vendorNumber: string;
+}
+
+export interface TrainReturn {
+	id: string;
+	name: string;
+	lineName: string
+	stations: StopStation[];
+}
+
+export interface StopStation {
+	stationCode: string;
+	stationName: string;
+	areaCode: string;
+	prefCode: string;
+	arrivalTime: string;
+	departureTime: string;
 }
 
 export interface HourMinute {
@@ -50,6 +66,6 @@ export function str2HourMinute(str: string): HourMinute {
     return {hour: parseInt(splitted[0]), minute: parseInt(splitted[1])} as HourMinute;
 }
 
-export function setHourMinuteInTrain(train: Train) {
+export function setHourMinuteInTrain(train: TrainInTable) {
     train.hourMinute = str2HourMinute(train.time);
 }

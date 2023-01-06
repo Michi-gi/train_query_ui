@@ -5,26 +5,21 @@ import { NextPage } from 'next'
 import { useRouter } from "next/router"
 import React, { useState, useEffect, useContext } from 'react'
 
-import { Table, Train, setHourMinuteInTrain } from 'lib/ResultType'
+import { Table, TrainInTable, setHourMinuteInTrain } from 'lib/ResultType'
 import { StatusContext }from "lib/Contexts"
 
 const TablePage:NextPage = () => {
   const [name, setName] = useState("");
-  const [trains, setTrains] = useState([] as Train[]);
+  const [trains, setTrains] = useState([] as TrainInTable[]);
   const [dayMap, setDayMap] = useState({} as {[key: string]: string})
   
   const router = useRouter();
-  console.log(router)
   const stationId = router.query.stationId as string;
   const tableId = router.query.tableId as string;
 
   const kind = router.query.kind as string || "-1"
   const [selectedKind, setSelectedKind] = useState(kind);
   const [viewKind, setViewKind] = useState(kind);
-  console.log(`station ID: ${stationId}`)
-  console.log(`table ID: ${tableId}`)
-  console.log(`initial kind: ${kind}`)
-  console.log(`initial selected kind: ${selectedKind}`)
   const statusContext = useContext(StatusContext);
 
   async function refresh(stationId: string, tableId: string, kind: string): Promise<Table> {
