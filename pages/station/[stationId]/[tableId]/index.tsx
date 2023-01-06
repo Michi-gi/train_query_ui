@@ -23,7 +23,7 @@ const TablePage:NextPage = () => {
   const statusContext = useContext(StatusContext);
 
   async function refresh(stationId: string, tableId: string, kind: string): Promise<Table> {
-    const contextKey = `${tableId}_${kind}`;
+    const contextKey = `${stationId}_${tableId}_${kind}`;
     let table = statusContext.table[contextKey];
     if (table != null) {
       return table;
