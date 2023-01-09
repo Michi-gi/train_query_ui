@@ -19,7 +19,6 @@ export const QueryStation = ({onQueryStart, onSelect}: Props) => {
   };
 
   function selected(key: string) {
-    console.log(`selected key: ${key}`)
     setSelection(key);
     onSelect(result[key].id);
   }
@@ -32,7 +31,7 @@ export const QueryStation = ({onQueryStart, onSelect}: Props) => {
       </div>
       <div className="list-group">
         {Object.keys(result).map((key:string) =>
-        <button type="button" className={`list-group-item list-group-item-action ${(key == selection) ? "active" : ""}`} onClick={() => selected(key)}>
+        <button key={key} type="button" className={`list-group-item list-group-item-action ${(key == selection) ? "active" : ""}`} onClick={() => selected(key)}>
         {result[key].id} : {result[key].name}&nbsp;({result[key].railways.join(", ")})
         </button>
         )}
