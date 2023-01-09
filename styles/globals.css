@@ -105,3 +105,21 @@ a {
     color-scheme: dark;
   }
 }
+
+.full_screen {
+  width: 100vw;
+  height: 100vh;
+}
+.flex_vertical_parent {
+  display: flex;
+  flex-flow: column;
+}
+
+.flex_horizontal_parent {
+  display: flex;
+  flex-flow: row;
+}
+
+.flex_rest {
+  flex: auto;
+}
