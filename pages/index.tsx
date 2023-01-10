@@ -1,13 +1,17 @@
 import Head from 'next/head'
 import { NextPage } from 'next'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext, DragEvent, useRef } from 'react'
 import { useRouter,  useSearchParams } from 'next/navigation'
 
 import { SearchResult, Station } from 'lib/ResultType'
 import { QueryStation } from 'components/queryStation'
 import { StationLines } from 'components/stationLines'
+import { StatusContext } from 'lib/Contexts'
+
+import styles from '../styles/Home.module.css'
 
 const Home:NextPage = () => {
+  const context =useContext(StatusContext);
   const [station, setStation] = useState({} as Station);
 
   const queryParamMap = {} as {[key: string]: string};
@@ -16,16 +20,20 @@ const Home:NextPage = () => {
   for (const [key, value] of searchParams.entries()) {
     queryParamMap[key] = value;
   }
-  console.log(queryParamMap)
   const stationId = searchParams.get("station");
 
   useEffect(() => {
-    console.log("effect")
     if (stationId) {
-      fetch(`/api/station/${stationId}`).then(async (response) => {
-        const station = await response.json() as Station;
+      let station = context.station[stationId];
+      if (station === undefined) {
+        fetch(`/api/station/${stationId}`).then(async (response) => {
+          station = await response.json() as Station;
+          setStation(station);
+          context.station[stationId] = station;
+        });
+      } else {
         setStation(station);
-      });
+      }
     }
   }, [searchParams]);
 
@@ -45,6 +53,15 @@ const Home:NextPage = () => {
     router.push(url);
   }
 
+  const dragRef = useRef<HTMLDivElement>(null);
+
+  const dragging = (event: DragEvent<HTMLDivElement>) => {
+    const x = event.clientX;
+    if ((dragRef.current) && (x > 0)) {
+      dragRef.current.style.width = `${x}px`;
+    }
+  }
+
   return (
     <>
       <Head>
@@ -58,14 +75,17 @@ const Home:NextPage = () => {
           <h1>Train Query App</h1>
         </header>
         <main className="flex_rest flex_horizontal_parent">
-          <div className="flex_vertical_parent">
-            <div>
+          <div className="flex_vertical_parent" ref={dragRef}>
+            <div className="vertical_contents_box">
               <QueryStation onQueryStart={submit} onSelect={selected} />
             </div>
-            <div className="flex_rest">
+            <div className="flex_rest vertical_contents_box">
               <StationLines station={station} onSelect={lineSelected}></StationLines>
             </div>
           </div>
+          <div className={styles.horizontal_slider_left}><div></div></div>
+          <div className={styles.horizontal_slider} draggable="true" onDrag={dragging}></div>
+          <div className={styles.horizontal_slider_right}></div>
           <div className="flex_rest"></div>
         </main>
       </div>

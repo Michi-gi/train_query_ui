@@ -110,6 +110,7 @@ a {
   width: 100vw;
   height: 100vh;
 }
+
 .flex_vertical_parent {
   display: flex;
   flex-flow: column;
@@ -122,4 +123,8 @@ a {
 
 .flex_rest {
   flex: auto;
+}
+
+.vertical_contents_box {
+  margin-top: 32px;
 }
