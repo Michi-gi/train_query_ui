@@ -22,6 +22,8 @@ export interface Line {
 }
 
 export interface Table {
+	stationId: string;
+	tableId: string;
     direction: string;
     lineName: string;
     table: TrainInTable[];
@@ -31,8 +33,7 @@ export interface Table {
 export interface TrainInTable {
     id: string;
     name: string;
-    time: string;
-    hourMinute: HourMinute;
+    time: HourMinute;
     kind: string;
     destination: string;
     isFirstStation: boolean;
