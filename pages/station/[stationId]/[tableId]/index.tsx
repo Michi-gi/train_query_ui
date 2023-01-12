@@ -5,7 +5,7 @@ import { NextPage } from 'next'
 import { useRouter } from "next/router"
 import React, { useState, useEffect, useContext } from 'react'
 
-import { Table, TrainInTable, setHourMinuteInTrain } from 'lib/ResultType'
+import { Table, TrainInTable } from 'lib/ResultType'
 import { StatusContext }from "lib/Contexts"
 
 const TablePage:NextPage = () => {

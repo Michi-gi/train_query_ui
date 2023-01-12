@@ -5,8 +5,15 @@ import { NextPage } from 'next'
 import { useRouter } from "next/router"
 import React, { useState, useEffect, useContext } from 'react'
 
-import { TrainReturn, StopStation, setHourMinuteInTrain } from 'lib/ResultType'
+import { TrainReturn, StopStation, HourMinute } from 'lib/ResultType'
 import { StatusContext }from "lib/Contexts"
+
+function time2str(time: HourMinute): string {
+  if (!time) {
+    return "-";
+  }
+  return `${String(time.hour).padStart(2, "0")}:${String(time.minute).padStart(2, "0")}`;
+}
 
 const TablePage:NextPage = () => {
   const [name, setName] = useState("");
@@ -51,7 +58,7 @@ const TablePage:NextPage = () => {
         <div>
           <ul className="List-group">
             {stations && stations.map((station) =>
-            <li key={station.stationCode} className="list-group-item"><Link href={{pathname: "/station/[stationId]", query: {stationId: station.stationCode}}}>{station.stationName} | {station.arrivalTime || "-"}着&nbsp;{station.departureTime || "-"}発</Link></li> 
+            <li key={station.stationCode} className="list-group-item"><Link href={{pathname: "/station/[stationId]", query: {stationId: station.stationCode}}}>{station.stationName} | {time2str(station.arrivalTime)}着&nbsp;{time2str(station.departureTime)}発</Link></li> 
             )}
           </ul>
         </div>

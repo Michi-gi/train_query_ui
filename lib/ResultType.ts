@@ -53,20 +53,11 @@ export interface StopStation {
 	stationName: string;
 	areaCode: string;
 	prefCode: string;
-	arrivalTime: string;
-	departureTime: string;
+	arrivalTime: HourMinute;
+	departureTime: HourMinute;
 }
 
 export interface HourMinute {
     hour: number;
     minute: number;
-}
-
-export function str2HourMinute(str: string): HourMinute {
-    const splitted = str.split(":");
-    return {hour: parseInt(splitted[0]), minute: parseInt(splitted[1])} as HourMinute;
-}
-
-export function setHourMinuteInTrain(train: TrainInTable) {
-    train.hourMinute = str2HourMinute(train.time);
 }

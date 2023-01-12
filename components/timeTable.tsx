@@ -35,7 +35,6 @@ export const TimeTable = ({table, kind, onKindSelect, onSelect}: Props) => {
       <div>
         <ul className="List-group">
           {table.table && table.table.map((train) =>
-          // <li key={train.id} className="list-group-item"><Link href={{pathname: "/station/[stationId]/[tableId]/[trainId]", query: {stationId: stationId, tableId: table.tableId, trainId: train.id}}}>{train.time} | {train.kind}&nbsp;:&nbsp;{train.name}&nbsp;:&nbsp;{train.destination}</Link></li> 
           <li key={train.id} className="list-group-item" onClick={() => selectTrain(table.stationId, table.tableId, train.id)}>{String(train.time.hour).padStart(2, "0")}:{String(train.time.minute).padStart(2, "0")} | {train.kind}&nbsp;:&nbsp;{train.name}&nbsp;:&nbsp;{train.destination}</li> 
           )}
         </ul>
