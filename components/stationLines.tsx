@@ -32,7 +32,7 @@ export const StationLines = ({station, onSelect}: Props) => {
             <div className="list-group">
               {station.lines && station.lines.map((line) =>
               <button key={line.RailId} type="button" className={`list-group-item list-group-item-action ${(line.RailId == selection) ? "active" : ""}`} onClick={() => selected(line.RailId)}>
-                {line.RailName} : {line.Source}&nbsp;-&nbsp;{line.Direction}
+                {line.RailName}&nbsp;:&nbsp;{line.Direction}&nbsp;方面
               </button>
               )}
             </div>
