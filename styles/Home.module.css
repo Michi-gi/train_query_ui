@@ -276,3 +276,27 @@
     transform: rotate(0deg);
   }
 }
+
+.horizontal_slider_left {
+  display: flex;
+  flex-flow: row;
+  width: 5px;
+  margin-left: 1px;
+}
+
+.horizontal_slider_left > div {
+  width: 3px;
+  height: 30px;
+  margin: auto;
+  background: silver;
+}
+
+.horizontal_slider {
+  width: 2px;
+  opacity: 0;
+  cursor: ew-resize;
+}
+
+.horizontal_slider_right {
+  border-right: 1px solid silver;
+}

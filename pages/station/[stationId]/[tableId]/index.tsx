@@ -5,7 +5,7 @@ import { NextPage } from 'next'
 import { useRouter } from "next/router"
 import React, { useState, useEffect, useContext } from 'react'
 
-import { Table, TrainInTable, setHourMinuteInTrain } from 'lib/ResultType'
+import { Table, TrainInTable } from 'lib/ResultType'
 import { StatusContext }from "lib/Contexts"
 
 const TablePage:NextPage = () => {
@@ -31,11 +31,6 @@ const TablePage:NextPage = () => {
       const query = (kind == "-1") ? "" : `?kind=${kind}`;
       return fetch(`/api/station/${stationId}/${tableId}${query}`).then(async (response) => {
         const table = await response.json() as Table;
-        if (table.table) {
-          table.table.forEach((train) => {
-            setHourMinuteInTrain(train);
-          });
-        }
         statusContext.table[contextKey] = table;
         return table;
       });
@@ -95,7 +90,7 @@ const TablePage:NextPage = () => {
         <div>
           <ul className="List-group">
             {trains && trains.map((train) =>
-            <li key={train.id} className="list-group-item"><Link href={{pathname: "/station/[stationId]/[tableId]/[trainId]", query: {stationId: stationId, tableId: tableId, trainId: train.id}}}>{train.time} | {train.kind}&nbsp;:&nbsp;{train.name}&nbsp;:&nbsp;{train.destination}</Link></li> 
+            <li key={train.id} className="list-group-item"><Link href={{pathname: "/station/[stationId]/[tableId]/[trainId]", query: {stationId: stationId, tableId: tableId, trainId: train.id}}}>{String(train.time.hour).padStart(2, "0")}:{String(train.time.minute).padStart(2, "0")} | {train.kind}&nbsp;:&nbsp;{train.name}&nbsp;:&nbsp;{train.destination}</Link></li> 
             )}
           </ul>
         </div>
