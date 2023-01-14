@@ -42,5 +42,3 @@ export const TimeTable = ({table, kind, onKindSelect, onSelect}: Props) => {
     </>
   );
 }
-
-export default TimeTable
