@@ -33,11 +33,11 @@ export const QueryStation = ({onQueryStart, onSelect}: Props) => {
       </div>
       <div className="accordion" id="accordion">
         <div className="accordion-item">
-          <h2 className="accordion-header" id="headingOne">
+          <div className="accordion-header" id="headingOne">
             <button className={`accordion-button${queryOpen ? "" : " collapsed"}`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" onClick={() => setQueryOpen(!queryOpen)} aria-expanded={queryOpen} aria-controls="collapseOne">
               検索結果 {Object.keys(result).length}件
             </button>
-          </h2>
+          </div>
           <div id="collapseOne" className={`accordion-collapse collapse${queryOpen ? " show" : ""}`} aria-labelledby="headingOne" data-bs-parent="#accordionExample">
             <div className="list-group">
               {Object.keys(result).map((key:string) =>
