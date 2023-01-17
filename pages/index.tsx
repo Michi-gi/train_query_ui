@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
 import { NextPage } from 'next'
 import { useEffect, useState, useContext, DragEvent, useRef } from 'react'
 import { useRouter,  useSearchParams } from 'next/navigation'
@@ -6,11 +7,12 @@ import { useRouter,  useSearchParams } from 'next/navigation'
 import { SearchResult, Station, Table, TrainReturn } from 'lib/ResultType'
 import { QueryStation } from 'components/queryStation'
 import { StationLines } from 'components/stationLines'
-import { TimeTable } from 'components/timeTable'
 import { StatusContext } from 'lib/Contexts'
 
 import styles from '../styles/Home.module.css'
 import { Train } from 'components/train'
+
+const TimeTable = dynamic(() => import("components/timeTable").then((modules) => modules.TimeTable), { ssr: false });
 
 const Home:NextPage = () => {
   const context =useContext(StatusContext);
@@ -32,7 +34,6 @@ const Home:NextPage = () => {
   const trainId = searchParams.get("train");
 
   useEffect(() => {
-    console.log(tab)
     if (stationId) {
       let station = context.station[stationId];
       console.log(station)
