@@ -87,7 +87,7 @@ export const TimeTable = ({table, kind, onKindSelect, onSelect}: Props) => {
           <div className="col-1 border text-center py-3">{hourTable.hour}</div>
           <div className="col border text-break py-3">
           {hourTable.trains.map((train) =>
-            <TableTrain train={train} onClick={selectTrain}/>
+            <TableTrain key={train.id} train={train} onClick={selectTrain}/>
           )}
           </div>
         </div>
