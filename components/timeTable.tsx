@@ -4,6 +4,7 @@ import { Popover} from 'bootstrap'
 
 import { Table, TrainInTable } from 'lib/ResultType'
 import styles from './timeTables.module.css'
+import { TableTrain } from './tableTrain';
 
 type Props = {
   table: Table;
@@ -46,7 +47,7 @@ export const TimeTable = ({table, kind, onKindSelect, onSelect}: Props) => {
     onKindSelect(kind);
   };
 
-  const selectTrain = (stationId: string, tableId: string, trainId: string) => {
+  const selectTrain = (trainId: string) => {
     onSelect(trainId);
   };
 
@@ -71,8 +72,8 @@ export const TimeTable = ({table, kind, onKindSelect, onSelect}: Props) => {
 
   return (
     <>
-      <h1>{table.lineName}</h1>
-      <div className="btn-group" role="group" aria-label="Basic radio toggle button group">
+      <h1 className="mx-3 my-2">{table.lineName}</h1>
+      <div className="btn-group mx-3 my-2" role="group" aria-label="Basic radio toggle button group">
       {table.dayOfWeekMap && Object.keys(table.dayOfWeekMap).map((key) => 
       <React.Fragment key={key}>
         <input type="radio" className="btn-check" name="btnradio" id={`btnradio_${key}`} value={key} checked={key == viewKind} onChange={e => setKind(e.target.value)} />
@@ -80,37 +81,19 @@ export const TimeTable = ({table, kind, onKindSelect, onSelect}: Props) => {
       </React.Fragment >
       )}
       </div>
-      <div className={`container ${styles.table_container}`} ref={containerRef}>
+      <div className={`container px-4 my-2 ${styles.table_container}`} ref={containerRef}>
       {tableByHour.map((hourTable) =>
         <div key={`hour_${hourTable.hour}`} className="row">
           <div className="col-1 border text-center py-3">{hourTable.hour}</div>
           <div className="col border text-break py-3">
           {hourTable.trains.map((train) =>
-            <span className="px-2 inline-brock" data-bs-toggle="popover" data-bs-trigger="hover focus" title={`${train.kind}|${train.name}`} data-bs-content={train.destination}>{train.time.minute}</span>
+            <TableTrain train={train} onClick={selectTrain}/>
           )}
           </div>
         </div>
       )}
       </div>
-
-
-
-
-
-
-
-
-      <div>
-        <ul className="List-group">
-          {table.table && table.table.map((train) =>
-          <li key={train.id} className="list-group-item" onClick={() => selectTrain(table.stationId, table.tableId, train.id)}>{String(train.time.hour).padStart(2, "0")}:{String(train.time.minute).padStart(2, "0")} | {train.kind}&nbsp;:&nbsp;{train.name}&nbsp;:&nbsp;{train.destination}</li> 
-          )}
-        </ul>
-      </div>
     </>
   );
-}
-function useRefe<T>(arg0: null) {
-  throw new Error('Function not implemented.');
 }
 

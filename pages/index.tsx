@@ -36,7 +36,6 @@ const Home:NextPage = () => {
   useEffect(() => {
     if (stationId) {
       let station = context.station[stationId];
-      console.log(station)
       if (station === undefined) {
         fetch(`/api/station/${stationId}`).then(async (response) => {
           station = await response.json() as Station;
@@ -55,7 +54,6 @@ const Home:NextPage = () => {
     if ((stationId) && (lineId)) {
       const tableId = `${lineId}_${kind}`
       let table = context.table[tableId];
-      console.log(table)
       if (table === undefined) {
         const url = `/api/station/${stationId}/${lineId}` + ((kind != "-1") ? `?kind=${kind}` : "");
         fetch(url).then(async (response) => {
@@ -73,7 +71,6 @@ const Home:NextPage = () => {
     }
     if ((stationId) && (lineId) && (trainId)) {
       let train = context.trains[trainId];
-      console.log(train)
       if (train === undefined) {
         fetch(`/api/station/${stationId}/${lineId}/${trainId}`).then(async (response) => {
           train = await response.json() as TrainReturn;
