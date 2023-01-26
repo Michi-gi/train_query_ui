@@ -1,0 +1,34 @@
+.limited_express {
+  color: red;
+}
+.express {
+  color: orange;
+}
+
+.semi_express {
+  color: green;
+}
+
+.super_rapid {
+  color: blue;
+}
+
+.rapid {
+  color: #00aaff;
+}
+
+.semi_rapid {
+  color: limegreen;
+}
+
+.normal {
+  color: black;
+}
+
+.none {
+  color: silver;
+}
+
+.dest {
+  font-size: 12px;
+}
