@@ -58,9 +58,21 @@ export const TableTrain = ({train, onClick}: Props) => {
     onClick(train.id);
   }
 
+  function showPopover() {
+    if (popover) {
+      popover.show();
+    }
+  }
+
+  function hidePopover() {
+    if (popover) {
+      popover.hide();
+    }
+  }
+
   return (
     <>
-      <span className={`px-2 inline-brock ${trainStyle}`} data-bs-toggle="popover" data-bs-trigger="manual" title={`<strong>${train.name}</strong>`} data-bs-html="true" data-bs-content={`<strong>種別</strong><br />&nbsp;&nbsp;${train.kind}<br /><strong>行先</strong><br />&nbsp;&nbsp;${train.destination}`} role="button" onClick={click} onMouseEnter={() => popover.show()} onMouseLeave={() => popover.hide()} ref={popoverEle}><ruby>{train.time.minute}<rt className={styles.dest}>{train.destination.substring(0, 1)}{train.isFirstStation ? "●" : ""}</rt></ruby></span>
+      <span className={`px-2 inline-brock ${trainStyle}`} data-bs-toggle="popover" data-bs-trigger="manual" title={`<strong>${train.name}</strong>`} data-bs-html="true" data-bs-content={`<strong>種別</strong><br />&nbsp;&nbsp;${train.kind}<br /><strong>行先</strong><br />&nbsp;&nbsp;${train.destination}`} role="button" onClick={click} onMouseEnter={showPopover} onMouseLeave={hidePopover} ref={popoverEle}><ruby>{train.time.minute}<rt className={styles.dest}>{train.destination.substring(0, 1)}{train.isFirstStation ? "●" : ""}</rt></ruby></span>
     </>
   );
 }
