@@ -21,19 +21,19 @@ export const StationLines = ({station, onSelect}: Props) => {
 
   return (
     <>
-      <div className="accordion" id="accordion">
+      <div className="accordion" id={`stationAccordion_${station.id}`}>
         <div className="accordion-item">
-          <div className="accordion-header" id="headingOne">
-            <button className={`accordion-button${stationOpen ? "" : " collapsed"}`} type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" onClick={() => setStationOpen(!stationOpen)} aria-expanded={stationOpen} aria-controls="collapseOne">
+          <div className="accordion-header" id={`stationHeadingOne_${station.id}`}>
+            <div className={`accordion-button${stationOpen ? "" : " collapsed"}`} data-bs-toggle="collapse" data-bs-target={`#stationCollapseOne_${station.id}`} onClick={() => setStationOpen(!stationOpen)} aria-expanded={stationOpen} aria-controls={`stationCollapseOne_${station.id}`}>
               <span className="fw-bold">{station.name}</span>
-            </button>
+            </div>
           </div>
-          <div id="collapseOne" className={`accordion-collapse collapse${stationOpen ? " show" : ""}`} aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div id={`stationCollapseOne_${station.id}`} className={`accordion-collapse collapse${stationOpen ? " show" : ""}`} aria-labelledby={`stationHeadingOne_${station.id}`} data-bs-parent={`#stationAccordion_${station.id}`}>
             <div className="list-group">
               {station.lines && station.lines.map((line) =>
-              <button key={line.RailId} type="button" className={`list-group-item list-group-item-action ${(line.RailId == selection) ? "active" : ""}`} onClick={() => selected(line.RailId)}>
+              <div key={line.RailId} className={`list-group-item list-group-item-action ${(line.RailId == selection) ? "active" : ""}`} onClick={() => selected(line.RailId)}>
                 {line.RailName}&nbsp;:&nbsp;{line.Direction}&nbsp;方面
-              </button>
+              </div>
               )}
             </div>
           </div>
