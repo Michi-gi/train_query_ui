@@ -9,6 +9,8 @@ type Props = {
 export const StationLines = ({station, onSelect}: Props) => {
   const [selection, setSelection] = useState("");
 
+  console.log(station);
+
   function selected(key: string) {
     setSelection(key);
     onSelect(key);
@@ -19,8 +21,8 @@ export const StationLines = ({station, onSelect}: Props) => {
       <h1>{station.name}&nbsp;駅</h1>
       <div className="list-group">
         {station.lines && station.lines.map((line) =>
-          <button key={line.RailId} type="button" className={`list-group-item list-group-item-action ${(line.RailId == selection) ? "active" : ""}`} onClick={() => selected(line.RailId)}>
-          {line.RailName} : {line.Source}&nbsp;-&nbsp;{line.Direction}
+          <button key={line.groupId} type="button" className={`list-group-item list-group-item-action ${(line.groupId == selection) ? "active" : ""}`} onClick={() => selected(line.groupId)}>
+          {line.railName} : {line.source}&nbsp;-&nbsp;{line.direction}
           </button>
         )}
       </div>

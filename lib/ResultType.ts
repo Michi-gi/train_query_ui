@@ -13,11 +13,11 @@ export interface Station {
 }
 
 export interface Line {
-    RailId: string;
-    RailName: string;
-    Direction: string;
-    Source: string;
-    ServiceDayCode: string;
+    groupId: string;
+    railName: string;
+    direction: string;
+    source: string;
+    driveDayKind: string;
     RailTarget: string;
 }
 

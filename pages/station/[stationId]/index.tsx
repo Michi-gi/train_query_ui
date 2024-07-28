@@ -45,7 +45,7 @@ const StationPage:NextPage = () => {
         <div>
           <ul className="List-group">
           {lines && lines.map((line) =>
-            <li key={line.RailId} className="list-group-item"><Link href={`${stationId}/${line.RailId}`}>{line.RailName} : {line.Source}&nbsp;-&nbsp;{line.Direction}</Link></li> 
+            <li key={line.groupId} className="list-group-item"><Link href={`${stationId}/${line.groupId}`}>{line.railName} : {line.source}&nbsp;-&nbsp;{line.direction}</Link></li> 
           )}
           </ul>
         </div>
